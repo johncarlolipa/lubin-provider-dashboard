@@ -87,7 +87,7 @@ export default function CoachProfilePage() {
       </div>
 
       {/* ── Tab content ── */}
-      <main className="flex-1 bg-[#FBFBFB] py-6">
+      <main className="flex-1 py-10" style={{ background: "radial-gradient(ellipse at center, #eff6ff 0%, #f8fafc 100%)" }}>
         <div className={`mx-auto px-6 ${mainTab === "works" ? "max-w-4xl" : "max-w-3xl"}`}>
           {mainTab === "services"      && <ServicesTab />}
           {mainTab === "availability"  && <AvailabilityTab onPreview={() => setPreviewMode(true)} />}

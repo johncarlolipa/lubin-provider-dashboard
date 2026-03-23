@@ -94,7 +94,7 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
   function saveLocation()      { if (locationDraft.trim()) setLocation(locationDraft.trim()); setEditingLocation(false); }
 
   return (
-    <section className="bg-[#e8edf5] py-8 px-6">
+    <section className="bg-gradient-to-b from-blue-50 to-slate-50 py-8 px-6">
       <div className="max-w-3xl mx-auto flex flex-col items-center gap-3">
 
         {/* Avatar */}
