@@ -1,0 +1,18 @@
+export const ALL_SKILLS = [
+  "Anxiety Disorders", "Depression", "Trauma & PTSD",
+  "Cognitive Behavioral Therapy", "Mindfulness-Based Therapy",
+  "Life Coaching", "Career Development", "Career Coaching",
+  "Leadership Development", "Leadership Management",
+  "Time Management", "Self Awareness", "Goal Setting",
+  "Work-Life Balance", "Stress Management", "Communication Skills",
+  "Team Building", "Conflict Resolution", "Emotional Intelligence",
+  "Personal Development", "Executive Coaching", "Relationship Coaching",
+  "Health & Wellness", "Nutrition Coaching", "Fitness Coaching",
+  "Financial Coaching", "Business Coaching", "Public Speaking",
+  "Confidence Building", "Accountability", "Habit Formation",
+  "Mindset Coaching", "Crisis Management", "Grief Counseling",
+  "Anger Management", "Parenting Skills", "Motivation",
+  "Resilience", "Productivity", "Strategic Thinking",
+  "Problem Solving", "Decision Making", "Creativity",
+  "Networking", "Negotiation", "Sales Coaching",
+];
