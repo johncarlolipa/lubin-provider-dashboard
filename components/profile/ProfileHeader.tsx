@@ -74,11 +74,23 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
   const [editingBio,      setEditingBio]      = useState(false);
   const [editingLocation, setEditingLocation] = useState(false);
 
-  const [toast, setToast] = useState({ message: "", isVisible: false });
+  const [toast,    setToast]    = useState({ message: "", isVisible: false });
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
   const nameRef     = useRef<HTMLInputElement>(null);
   const bioRef      = useRef<HTMLTextAreaElement>(null);
   const locationRef = useRef<HTMLInputElement>(null);
+  const photoRef    = useRef<HTMLInputElement>(null);
+
+  function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setPhotoUrl(url);
+    showToast("Profile photo updated");
+    // reset so same file can be re-selected
+    e.target.value = "";
+  }
 
   useEffect(() => { if (editingName)     nameRef.current?.focus();     }, [editingName]);
   useEffect(() => { if (editingBio)      bioRef.current?.focus();      }, [editingBio]);
@@ -109,11 +121,26 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
             Upload a professional, high-quality photo to help build trust and attract more clients to your profile.
             <span className="absolute top-full left-1/2 -translate-x-1/2 border-[7px] border-transparent border-t-[#002B66]" />
           </div>
+
+          {/* Hidden file input */}
+          <input
+            ref={photoRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+            onChange={handlePhotoChange}
+          />
+
           <div
+            onClick={() => photoRef.current?.click()}
             className="relative w-[88px] h-[88px] rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md cursor-pointer overflow-hidden"
-            style={{ background: "linear-gradient(135deg, #f59e0b 0%, #f97316 100%)" }}
+            style={photoUrl ? {} : { background: "linear-gradient(135deg, #f59e0b 0%, #f97316 100%)" }}
           >
-            DC
+            {photoUrl ? (
+              <img src={photoUrl} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              "DC"
+            )}
             <div className="absolute inset-0 rounded-full bg-black/45 flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-200">
               <CameraIcon className="w-7 h-7 text-white" />
             </div>
