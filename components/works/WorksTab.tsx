@@ -249,6 +249,7 @@ export default function WorksTab() {
 
   function handleRemoveConfirm(id: number) {
     setWorks((prev) => prev.filter((w) => w.id !== id));
+    setToast("Work removed successfully");
   }
 
   return (

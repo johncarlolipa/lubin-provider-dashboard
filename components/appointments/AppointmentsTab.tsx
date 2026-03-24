@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDownIcon } from "@/components/icons";
+import Toast from "@/components/shared/Toast";
+import CancelAppointmentSidebar from "./CancelAppointmentSidebar";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -191,7 +193,7 @@ function MetaLine({ date, time, client, colorClass }: MetaLineProps) {
 
 // ─── Card variants ────────────────────────────────────────────────────────────
 
-function UpcomingCard({ a }: { a: Appointment }) {
+function UpcomingCard({ a, onCancel }: { a: Appointment; onCancel: (a: Appointment) => void }) {
   return (
     <div className="bg-[#FDFDFD] border border-[#DCDCDC] rounded-xl p-5 shadow-sm">
       <div className="flex items-start gap-4">
@@ -219,7 +221,10 @@ function UpcomingCard({ a }: { a: Appointment }) {
             <button className="px-3.5 py-1.5 border border-[#66A6FF] text-[#006BFF] text-[12px] font-medium rounded-lg hover:bg-[#E6F0FF] transition-colors">
               Reschedule
             </button>
-            <button className="px-3.5 py-1.5 border border-[#D92D20] text-[#D92D20] text-[12px] font-medium rounded-lg hover:bg-[#FEE4E2] transition-colors">
+            <button
+              onClick={() => onCancel(a)}
+              className="px-3.5 py-1.5 border border-[#D92D20] text-[#D92D20] text-[12px] font-medium rounded-lg hover:bg-[#FEE4E2] transition-colors"
+            >
               Cancel
             </button>
           </div>
@@ -289,10 +294,10 @@ function CancelledCard({ a }: { a: Appointment }) {
 
 // ─── Card dispatcher ──────────────────────────────────────────────────────────
 
-function AppointmentCard({ appointment }: { appointment: Appointment }) {
+function AppointmentCard({ appointment, onCancel }: { appointment: Appointment; onCancel: (a: Appointment) => void }) {
   if (appointment.filter === "completed") return <CompletedCard a={appointment} />;
   if (appointment.filter === "cancelled") return <CancelledCard a={appointment} />;
-  return <UpcomingCard a={appointment} />;
+  return <UpcomingCard a={appointment} onCancel={onCancel} />;
 }
 
 // ─── Empty State ──────────────────────────────────────────────────────────────
@@ -313,28 +318,49 @@ function EmptyState({ filter }: { filter: FilterType }) {
 // ─── Appointments Tab (root) ──────────────────────────────────────────────────
 
 export default function AppointmentsTab() {
-  const [filter, setFilter] = useState<FilterType>("upcoming");
-  const visible = APPOINTMENTS.filter((a) => a.filter === filter);
+  const [filter,            setFilter]            = useState<FilterType>("upcoming");
+  const [appointments,      setAppointments]      = useState<Appointment[]>(APPOINTMENTS);
+  const [cancelTarget,      setCancelTarget]      = useState<Appointment | null>(null);
+  const [toast,             setToast]             = useState<string | null>(null);
+
+  const visible = appointments.filter((a) => a.filter === filter);
+
+  function handleCancelConfirm(id: number) {
+    setAppointments((prev) =>
+      prev.map((a) => a.id === id ? { ...a, filter: "cancelled" as FilterType } : a)
+    );
+    setToast("Appointment cancelled");
+  }
 
   return (
-    <div className="flex flex-col gap-4">
+    <>
+      <div className="flex flex-col gap-4">
 
-      {/* Filter row */}
-      <div className="flex justify-end">
-        <FilterDropdown value={filter} onChange={setFilter} />
+        {/* Filter row */}
+        <div className="flex justify-end">
+          <FilterDropdown value={filter} onChange={setFilter} />
+        </div>
+
+        {/* Cards */}
+        {visible.length === 0 ? (
+          <EmptyState filter={filter} />
+        ) : (
+          <div className="flex flex-col gap-4">
+            {visible.map((appointment) => (
+              <AppointmentCard key={appointment.id} appointment={appointment} onCancel={setCancelTarget} />
+            ))}
+          </div>
+        )}
+
       </div>
 
-      {/* Cards */}
-      {visible.length === 0 ? (
-        <EmptyState filter={filter} />
-      ) : (
-        <div className="flex flex-col gap-4">
-          {visible.map((appointment) => (
-            <AppointmentCard key={appointment.id} appointment={appointment} />
-          ))}
-        </div>
-      )}
+      <CancelAppointmentSidebar
+        appointment={cancelTarget}
+        onClose={() => setCancelTarget(null)}
+        onConfirm={handleCancelConfirm}
+      />
 
-    </div>
+      <Toast message={toast ?? ""} isVisible={!!toast} onHide={() => setToast(null)} />
+    </>
   );
 }

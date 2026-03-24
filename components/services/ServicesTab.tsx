@@ -134,6 +134,12 @@ export default function ServicesTab() {
     if (!service) return;
     setServices((prev) => prev.filter((s) => s.id !== id));
     setArchived((prev) => [...prev, service]);
+    showToast("Service archived");
+    // Wait for confirm sidebar close animation, then open archive sidebar
+    setTimeout(() => {
+      setActiveTab("archive");
+      setArchiveSidebarOpen(true);
+    }, 350);
   }
 
   function handleEditSave(updated: Service) {

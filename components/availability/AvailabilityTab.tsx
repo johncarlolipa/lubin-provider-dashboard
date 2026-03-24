@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDownIcon, ChevronRightIcon } from "@/components/icons";
+import Toast from "@/components/shared/Toast";
 import type { DaySchedule } from "@/components/types";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -233,6 +234,11 @@ interface AvailabilityTabProps {
 export default function AvailabilityTab({ onPreview }: AvailabilityTabProps = {}) {
   const [schedule, setSchedule] = useState<DaySchedule[]>(INITIAL_SCHEDULE);
   const [timezone, setTimezone] = useState("Asia/Manila (UTC+8)");
+  const [toast,    setToast]    = useState({ message: "", isVisible: false });
+
+  function handleSaveChanges() {
+    setToast({ message: "Availability saved", isVisible: true });
+  }
 
   function handleToggleDay(index: number) {
     setSchedule((prev) =>
@@ -264,7 +270,7 @@ export default function AvailabilityTab({ onPreview }: AvailabilityTabProps = {}
           >
             Preview
           </button>
-          <button className="px-4 py-[9px] rounded-lg text-[13px] font-medium text-white bg-[#006BFF] hover:bg-[#0056CC] transition-colors">
+          <button onClick={handleSaveChanges} className="px-4 py-[9px] rounded-lg text-[13px] font-medium text-white bg-[#006BFF] hover:bg-[#0056CC] transition-colors">
             Save Changes
           </button>
         </div>
@@ -291,6 +297,8 @@ export default function AvailabilityTab({ onPreview }: AvailabilityTabProps = {}
 
       {/* Set Unavailability */}
       <UnavailabilitySection />
+
+      <Toast message={toast.message} isVisible={toast.isVisible} onHide={() => setToast((t) => ({ ...t, isVisible: false }))} />
     </div>
   );
 }

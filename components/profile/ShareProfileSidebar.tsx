@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Toast from "@/components/shared/Toast";
 import {
   PencilIcon,
   CopyIcon,
@@ -47,6 +48,7 @@ export default function ShareProfileSidebar({ isOpen, onClose }: ShareProfileSid
   const [editingUrl, setEditingUrl] = useState(false);
   const [copied,     setCopied]     = useState(false);
   const [urlSaved,   setUrlSaved]   = useState(false);
+  const [toast,      setToast]      = useState({ message: "", isVisible: false });
 
   const urlDirty = draftUrl !== url;
 
@@ -73,6 +75,7 @@ export default function ShareProfileSidebar({ isOpen, onClose }: ShareProfileSid
     setUrl(draftUrl);
     setEditingUrl(false);
     setUrlSaved(true);
+    setToast({ message: "Username saved successfully!", isVisible: true });
   }
 
   return (
@@ -198,6 +201,12 @@ export default function ShareProfileSidebar({ isOpen, onClose }: ShareProfileSid
 
         </div>
       </aside>
+
+      <Toast
+        message={toast.message}
+        isVisible={toast.isVisible}
+        onHide={() => setToast((t) => ({ ...t, isVisible: false }))}
+      />
     </>
   );
 }

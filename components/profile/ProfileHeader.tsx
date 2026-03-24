@@ -13,6 +13,7 @@ import {
   CameraIcon,
 } from "@/components/icons";
 import type { SocialLink, SocialPlatform } from "@/components/types";
+import Toast from "@/components/shared/Toast";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -73,6 +74,8 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
   const [editingBio,      setEditingBio]      = useState(false);
   const [editingLocation, setEditingLocation] = useState(false);
 
+  const [toast, setToast] = useState({ message: "", isVisible: false });
+
   const nameRef     = useRef<HTMLInputElement>(null);
   const bioRef      = useRef<HTMLTextAreaElement>(null);
   const locationRef = useRef<HTMLInputElement>(null);
@@ -81,19 +84,22 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
   useEffect(() => { if (editingBio)      bioRef.current?.focus();      }, [editingBio]);
   useEffect(() => { if (editingLocation) locationRef.current?.focus(); }, [editingLocation]);
 
+  function showToast(msg: string) { setToast({ message: msg, isVisible: true }); }
+
   function startEditName()     { setNameDraft(name);     setEditingName(true);     }
   function cancelName()        { setEditingName(false);                             }
-  function saveName()          { if (nameDraft.trim()) setName(nameDraft.trim()); setEditingName(false); }
+  function saveName()          { if (nameDraft.trim()) setName(nameDraft.trim()); setEditingName(false); showToast("Name updated"); }
 
   function startEditBio()      { setBioDraft(bio);      setEditingBio(true);       }
   function cancelBio()         { setEditingBio(false);                              }
-  function saveBio()           { if (bioDraft.trim()) setBio(bioDraft.trim()); setEditingBio(false); }
+  function saveBio()           { if (bioDraft.trim()) setBio(bioDraft.trim()); setEditingBio(false); showToast("Bio updated"); }
 
   function startEditLocation() { setLocationDraft(location); setEditingLocation(true);  }
   function cancelLocation()    { setEditingLocation(false);                               }
-  function saveLocation()      { if (locationDraft.trim()) setLocation(locationDraft.trim()); setEditingLocation(false); }
+  function saveLocation()      { if (locationDraft.trim()) setLocation(locationDraft.trim()); setEditingLocation(false); showToast("Location updated"); }
 
   return (
+    <>
     <section className="bg-gradient-to-b from-blue-50 to-slate-50 py-8 px-6">
       <div className="max-w-3xl mx-auto flex flex-col items-center gap-3">
 
@@ -229,5 +235,12 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
 
       </div>
     </section>
+
+    <Toast
+      message={toast.message}
+      isVisible={toast.isVisible}
+      onHide={() => setToast((t) => ({ ...t, isVisible: false }))}
+    />
+    </>
   );
 }

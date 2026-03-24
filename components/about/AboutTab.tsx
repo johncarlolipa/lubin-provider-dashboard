@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
+import Toast from "@/components/shared/Toast";
 import { ALL_SKILLS } from "@/components/shared/skills";
 import {
   PencilIcon,
@@ -487,7 +488,7 @@ function IdentityVerificationCard({ onSubmit }: { onSubmit: () => void }) {
 
 // ─── 3. About Bio ─────────────────────────────────────────────────────────────
 
-function AboutBioCard() {
+function AboutBioCard({ onSaved }: { onSaved?: () => void }) {
   const [committed, setCommitted] = useState(INITIAL_BIO);
   const [draft,     setDraft]     = useState(INITIAL_BIO);
   const [editing,   setEditing]   = useState(false);
@@ -501,7 +502,7 @@ function AboutBioCard() {
 
   function startEdit() { setDraft(committed); setEditing(true); }
   function cancel()    { setDraft(committed); setEditing(false); }
-  function save()      { setCommitted(draft); setEditing(false); }
+  function save()      { setCommitted(draft); setEditing(false); onSaved?.(); }
 
   return (
     <SectionCard>
@@ -552,7 +553,7 @@ function AboutBioCard() {
 
 // ─── 4. Areas of Specialization ───────────────────────────────────────────────
 
-function SpecializationCard() {
+function SpecializationCard({ onSaved }: { onSaved?: () => void }) {
   const [committed, setCommitted] = useState<string[]>(SEED_SPECS);
   const [draft,     setDraft]     = useState<string[]>(SEED_SPECS);
 
@@ -563,7 +564,7 @@ function SpecializationCard() {
   }
 
   function cancel() { setDraft([...committed]); }
-  function save()   { setCommitted([...draft]); }
+  function save()   { setCommitted([...draft]); onSaved?.(); }
 
   return (
     <SectionCard>
@@ -589,7 +590,7 @@ function SpecializationCard() {
 
 // ─── 5. Skills ────────────────────────────────────────────────────────────────
 
-function SkillsCard() {
+function SkillsCard({ onSaved }: { onSaved?: () => void }) {
   const [committed, setCommitted] = useState<string[]>(SEED_SKILLS);
   const [draft,     setDraft]     = useState<string[]>(SEED_SKILLS);
 
@@ -600,7 +601,7 @@ function SkillsCard() {
   }
 
   function cancel() { setDraft([...committed]); }
-  function save()   { setCommitted([...draft]); }
+  function save()   { setCommitted([...draft]); onSaved?.(); }
 
   return (
     <SectionCard>
@@ -705,7 +706,7 @@ function CertItem({ cert, onRemove, onLicenseChange, file, onFileChange }: CertI
   );
 }
 
-function LicensesCertificationsCard() {
+function LicensesCertificationsCard({ onSaved }: { onSaved?: () => void }) {
   const [committed, setCommitted] = useState<CertEntry[]>(SEED_CERTS);
   const [draft,     setDraft]     = useState<CertEntry[]>(SEED_CERTS);
   const [files,     setFiles]     = useState<Record<number, File | null>>({});
@@ -737,6 +738,7 @@ function LicensesCertificationsCard() {
   function save() {
     setCommitted(draft.map((c) => ({ ...c })));
     setFiles({});
+    onSaved?.();
   }
 
   return (
@@ -886,7 +888,7 @@ function VerificationStatusCard({ credStatus, idStatus, setCredStatus, setIdStat
 
 // ─── R2. Experience ───────────────────────────────────────────────────────────
 
-function ExperienceCard() {
+function ExperienceCard({ onSaved }: { onSaved?: () => void }) {
   const [committed, setCommitted] = useState<ExperienceEntry[]>(SEED_EXPERIENCE);
   const [draft,     setDraft]     = useState<ExperienceEntry[]>(SEED_EXPERIENCE);
 
@@ -897,7 +899,7 @@ function ExperienceCard() {
   }
 
   function cancel() { setDraft([...committed]); }
-  function save()   { setCommitted([...draft]); }
+  function save()   { setCommitted([...draft]); onSaved?.(); }
 
   return (
     <SectionCard>
@@ -946,7 +948,7 @@ function ExperienceCard() {
 
 // ─── R3. Education ────────────────────────────────────────────────────────────
 
-function EducationCard() {
+function EducationCard({ onSaved }: { onSaved?: () => void }) {
   const [committed, setCommitted] = useState<EducationEntry[]>(SEED_EDUCATION);
   const [draft,     setDraft]     = useState<EducationEntry[]>(SEED_EDUCATION);
 
@@ -957,7 +959,7 @@ function EducationCard() {
   }
 
   function cancel() { setDraft([...committed]); }
-  function save()   { setCommitted([...draft]); }
+  function save()   { setCommitted([...draft]); onSaved?.(); }
 
   return (
     <SectionCard>
@@ -1007,6 +1009,9 @@ function EducationCard() {
 export default function AboutTab() {
   const [credStatus, setCredStatus] = useState<VerifStatus>("not-submitted");
   const [idStatus,   setIdStatus]   = useState<VerifStatus>("not-submitted");
+  const [toast,      setToast]      = useState({ message: "", isVisible: false });
+
+  function showToast(msg: string) { setToast({ message: msg, isVisible: true }); }
 
   return (
     <div className="flex flex-col gap-5">
@@ -1038,19 +1043,20 @@ export default function AboutTab() {
       <div className="grid grid-cols-3 gap-5 items-start">
 
         <div className="col-span-2 flex flex-col gap-5">
-          <AboutBioCard />
-          <SpecializationCard />
-          <SkillsCard />
-          <LicensesCertificationsCard />
+          <AboutBioCard             onSaved={() => showToast("Bio saved")} />
+          <SpecializationCard       onSaved={() => showToast("Specializations saved")} />
+          <SkillsCard               onSaved={() => showToast("Skills saved")} />
+          <LicensesCertificationsCard onSaved={() => showToast("Certifications saved")} />
         </div>
 
         <div className="col-span-1 flex flex-col gap-5">
-          <ExperienceCard />
-          <EducationCard />
+          <ExperienceCard onSaved={() => showToast("Experience saved")} />
+          <EducationCard  onSaved={() => showToast("Education saved")} />
         </div>
 
       </div>
 
+      <Toast message={toast.message} isVisible={toast.isVisible} onHide={() => setToast((t) => ({ ...t, isVisible: false }))} />
     </div>
   );
 }

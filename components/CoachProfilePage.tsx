@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Toast from "@/components/shared/Toast";
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -48,6 +49,7 @@ export default function CoachProfilePage() {
   const [socialLinksOpen, setSocialLinksOpen] = useState(false);
   const [previewMode,     setPreviewMode]     = useState(false);
   const [socialLinks,     setSocialLinks]     = useState<SocialLink[]>(INITIAL_SOCIAL_LINKS);
+  const [toast,           setToast]           = useState({ message: "", isVisible: false });
 
   if (previewMode) {
     return <AvailabilityPreview onExit={() => setPreviewMode(false)} />;
@@ -107,11 +109,13 @@ export default function CoachProfilePage() {
       {/* ── Share profile sidebar ── */}
       <ShareProfileSidebar isOpen={shareOpen} onClose={() => setShareOpen(false)} />
 
+      <Toast message={toast.message} isVisible={toast.isVisible} onHide={() => setToast((t) => ({ ...t, isVisible: false }))} />
+
       {/* ── Social links sidebar ── */}
       <SocialLinksSidebar
         isOpen={socialLinksOpen}
         onClose={() => setSocialLinksOpen(false)}
-        onSave={(links) => { setSocialLinks(links); setSocialLinksOpen(false); }}
+        onSave={(links) => { setSocialLinks(links); setSocialLinksOpen(false); setToast({ message: "Social links saved", isVisible: true }); }}
         savedLinks={socialLinks}
       />
 
