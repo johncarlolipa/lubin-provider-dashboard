@@ -56,12 +56,12 @@ export default function Navbar() {
 
             {/* Menu items */}
             <div className="py-1.5">
-              <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] text-[#5A5C60] hover:bg-[#FBFBFB] transition-colors text-left">
-                <ChatIcon className="w-4 h-4 text-[#95979C] shrink-0" />
+              <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] text-[#5A5C60] hover:bg-[#E6F0FF] hover:text-[#006BFF] transition-colors text-left group">
+                <ChatIcon className="w-4 h-4 text-[#95979C] group-hover:text-[#006BFF] shrink-0 transition-colors" />
                 AI Chat
               </button>
-              <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] text-[#5A5C60] hover:bg-[#FBFBFB] transition-colors text-left">
-                <CogIcon className="w-4 h-4 text-[#95979C] shrink-0" />
+              <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] text-[#5A5C60] hover:bg-[#E6F0FF] hover:text-[#006BFF] transition-colors text-left group">
+                <CogIcon className="w-4 h-4 text-[#95979C] group-hover:text-[#006BFF] shrink-0 transition-colors" />
                 Account Settings
               </button>
             </div>
