@@ -195,41 +195,38 @@ function MetaLine({ date, time, client, colorClass }: MetaLineProps) {
 
 function UpcomingCard({ a, onCancel }: { a: Appointment; onCancel: (a: Appointment) => void }) {
   return (
-    <div className="bg-[#FDFDFD] border border-[#DCDCDC] rounded-xl p-5 shadow-sm">
-      <div className="flex items-start gap-4">
-
-        {/* Left */}
-        <div className="flex-1 flex flex-col gap-2 min-w-0">
-          <h3 className="text-[15px] font-bold text-[#202124] leading-snug">{a.title}</h3>
-          <p className="text-[13px] text-[#86888D] leading-relaxed">{a.description}</p>
-          <MetaLine date={a.date} time={a.time} client={a.client} colorClass="text-[#86888D]" />
-          <div className="pt-1">
-            <button className="px-5 py-2.5 bg-[#006BFF] hover:bg-[#0056CC] text-white text-[13px] font-semibold rounded-lg transition-colors">
-              Join the Meeting
-            </button>
-          </div>
+    <div className="bg-[#FDFDFD] border border-[#DCDCDC] rounded-xl p-4 sm:p-5 shadow-sm flex flex-col gap-3">
+      {/* Top: title + price/badge */}
+      <div className="flex flex-col gap-1">
+        <h3 className="text-[15px] font-bold text-[#202124] leading-snug">{a.title}</h3>
+        <div className="flex items-center gap-2">
+          <span className="text-[14px] font-bold text-[#202124]">{a.price}</span>
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#DCF4E6] text-[#079455]">Paid</span>
         </div>
+      </div>
 
-        {/* Right */}
-        <div className="flex flex-col items-end gap-2 shrink-0 self-stretch">
-          <span className="text-[15px] font-bold text-[#202124]">{a.price}</span>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#DCF4E6] text-[#079455]">
-            Paid
-          </span>
-          <div className="flex-1" />
-          <div className="flex items-center gap-2">
-            <button className="px-3.5 py-1.5 border border-[#66A6FF] text-[#006BFF] text-[12px] font-medium rounded-lg hover:bg-[#E6F0FF] transition-colors">
-              Reschedule
-            </button>
-            <button
-              onClick={() => onCancel(a)}
-              className="px-3.5 py-1.5 border border-[#D92D20] text-[#D92D20] text-[12px] font-medium rounded-lg hover:bg-[#FEE4E2] transition-colors"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+      {/* Description + meta */}
+      <div className="flex flex-col gap-1.5">
+        <p className="text-[13px] text-[#86888D] leading-relaxed">{a.description}</p>
+        <MetaLine date={a.date} time={a.time} client={a.client} colorClass="text-[#86888D]" />
+      </div>
 
+      {/* Join button */}
+      <button className="w-full py-3 bg-[#006BFF] hover:bg-[#0056CC] text-white text-[13px] font-semibold rounded-lg transition-colors">
+        Join the Meeting
+      </button>
+
+      {/* Action buttons */}
+      <div className="flex items-center gap-2">
+        <button className="flex-1 px-3.5 py-2 border border-[#66A6FF] text-[#006BFF] text-[12px] font-medium rounded-lg hover:bg-[#E6F0FF] transition-colors">
+          Reschedule
+        </button>
+        <button
+          onClick={() => onCancel(a)}
+          className="flex-1 px-3.5 py-2 border border-[#D92D20] text-[#D92D20] text-[12px] font-medium rounded-lg hover:bg-[#FEE4E2] transition-colors"
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );
@@ -237,31 +234,27 @@ function UpcomingCard({ a, onCancel }: { a: Appointment; onCancel: (a: Appointme
 
 function CompletedCard({ a }: { a: Appointment }) {
   return (
-    <div className="bg-[#FDFDFD] border border-[#DCDCDC] rounded-xl p-5 shadow-sm">
-      <div className="flex items-start gap-4">
+    <div className="bg-[#FDFDFD] border border-[#DCDCDC] rounded-xl p-4 sm:p-5 shadow-sm flex flex-col gap-3">
+      {/* Top: info */}
+      <div className="flex flex-col gap-1.5">
+        <h3 className="text-[15px] font-bold text-[#202124] leading-snug">{a.title}</h3>
+        <MetaLine date={a.date} time={a.time} client={a.client} colorClass="text-[#006BFF]" />
+      </div>
 
-        {/* Left — no description for completed */}
-        <div className="flex-1 flex flex-col gap-2 min-w-0">
-          <h3 className="text-[15px] font-bold text-[#202124] leading-snug">{a.title}</h3>
-          <MetaLine date={a.date} time={a.time} client={a.client} colorClass="text-[#006BFF]" />
+      {/* Bottom: price+badge then buttons */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <span className="text-[14px] font-bold text-[#202124]">{a.price}</span>
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#DCF4E6] text-[#079455]">Completed</span>
         </div>
-
-        {/* Right */}
-        <div className="flex flex-col items-end gap-2 shrink-0">
-          <span className="text-[15px] font-bold text-[#202124]">{a.price}</span>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#DCF4E6] text-[#079455]">
-            Completed
-          </span>
-          <div className="flex items-center gap-2 mt-1">
-            <button className="px-3.5 py-1.5 border border-[#BFBFBF] text-[#5A5C60] text-[12px] font-medium rounded-lg hover:bg-[#FBFBFB] transition-colors">
-              Receipt
-            </button>
-            <button className="px-3.5 py-1.5 bg-[#006BFF] hover:bg-[#0056CC] text-white text-[12px] font-semibold rounded-lg transition-colors">
-              Book Again
-            </button>
-          </div>
+        <div className="flex items-center gap-2">
+          <button className="flex-1 sm:flex-none px-3.5 py-2 border border-[#BFBFBF] text-[#5A5C60] text-[12px] font-medium rounded-lg hover:bg-[#FBFBFB] transition-colors whitespace-nowrap">
+            Receipt
+          </button>
+          <button className="flex-1 sm:flex-none px-3.5 py-2 bg-[#006BFF] hover:bg-[#0056CC] text-white text-[12px] font-semibold rounded-lg transition-colors whitespace-nowrap">
+            Book Again
+          </button>
         </div>
-
       </div>
     </div>
   );
@@ -269,24 +262,18 @@ function CompletedCard({ a }: { a: Appointment }) {
 
 function CancelledCard({ a }: { a: Appointment }) {
   return (
-    <div className="bg-[#FDFDFD] border border-[#DCDCDC] rounded-xl p-5 shadow-sm">
-      <div className="flex items-start gap-4">
+    <div className="bg-[#FDFDFD] border border-[#DCDCDC] rounded-xl p-4 sm:p-5 shadow-sm flex flex-col gap-3">
+      {/* Top: info */}
+      <div className="flex flex-col gap-1.5">
+        <h3 className="text-[15px] font-bold text-[#002B66] leading-snug">{a.title}</h3>
+        <p className="text-[13px] text-[#86888D] leading-relaxed">{a.description}</p>
+        <MetaLine date={a.date} time={a.time} client={a.client} colorClass="text-[#006BFF]" />
+      </div>
 
-        {/* Left */}
-        <div className="flex-1 flex flex-col gap-2 min-w-0">
-          <h3 className="text-[15px] font-bold text-[#002B66] leading-snug">{a.title}</h3>
-          <p className="text-[13px] text-[#86888D] leading-relaxed">{a.description}</p>
-          <MetaLine date={a.date} time={a.time} client={a.client} colorClass="text-[#006BFF]" />
-        </div>
-
-        {/* Right — price + Cancelled badge only, no action buttons */}
-        <div className="flex flex-col items-end gap-2 shrink-0">
-          <span className="text-[15px] font-bold text-[#202124]">{a.price}</span>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEE4E2] text-[#D92D20]">
-            Cancelled
-          </span>
-        </div>
-
+      {/* Bottom row: price + badge */}
+      <div className="flex items-center gap-2">
+        <span className="text-[14px] font-bold text-[#202124]">{a.price}</span>
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEE4E2] text-[#D92D20]">Cancelled</span>
       </div>
     </div>
   );

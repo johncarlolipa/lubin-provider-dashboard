@@ -212,7 +212,7 @@ export default function AddServiceSidebar({
 
       {/* Panel */}
       <aside
-        className={`fixed top-0 right-0 h-full w-[420px] bg-[#FDFDFD] shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ease-out ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#FDFDFD] shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ease-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -258,45 +258,35 @@ export default function AddServiceSidebar({
           <div className="bg-[#FDFDFD] border border-[#DCDCDC] rounded-xl p-4">
             <p className="text-[13px] font-semibold text-[#1A1A1D] mb-3">How is this service priced?</p>
             <div className="flex flex-col gap-2">
-              <label
-                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
-                  pricingType === "per-session"
-                    ? "border-[#66A6FF] bg-[#E6F0FF]"
-                    : "border-[#DCDCDC] hover:bg-[#FBFBFB]"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="pricing"
-                  checked={pricingType === "per-session"}
-                  onChange={() => setPricingType("per-session")}
-                  className="mt-0.5 accent-[#006BFF]"
-                />
-                <div>
-                  <p className="text-[13px] font-semibold text-[#1A1A1D]">Per Session</p>
-                  <p className="text-[12px] text-[#86888D]">Clients book and pay per visit</p>
-                </div>
-              </label>
-
-              <label
-                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
-                  pricingType === "package"
-                    ? "border-[#66A6FF] bg-[#E6F0FF]"
-                    : "border-[#DCDCDC] hover:bg-[#FBFBFB]"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="pricing"
-                  checked={pricingType === "package"}
-                  onChange={() => setPricingType("package")}
-                  className="mt-0.5 accent-[#006BFF]"
-                />
-                <div>
-                  <p className="text-[13px] font-semibold text-[#1A1A1D]">Package (multi-session)</p>
-                  <p className="text-[12px] text-[#86888D]">Clients purchase a bundle of sessions upfront</p>
-                </div>
-              </label>
+              {([
+                { value: "per-session", label: "Per Session",          sub: "Clients book and pay per visit" },
+                { value: "package",     label: "Package (multi-session)", sub: "Clients purchase a bundle of sessions upfront" },
+              ] as { value: PricingType; label: string; sub: string }[]).map(({ value, label, sub }) => (
+                <label
+                  key={value}
+                  onClick={() => setPricingType(value)}
+                  className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                    pricingType === value
+                      ? "border-[#66A6FF] bg-[#E6F0FF]"
+                      : "border-[#DCDCDC] hover:bg-[#FBFBFB]"
+                  }`}
+                >
+                  {/* Custom radio circle */}
+                  <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                    pricingType === value
+                      ? "border-[#006BFF] bg-[#006BFF]"
+                      : "border-[#BFBFBF] bg-[#FDFDFD]"
+                  }`}>
+                    {pricingType === value && (
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-semibold text-[#1A1A1D]">{label}</p>
+                    <p className="text-[12px] text-[#86888D]">{sub}</p>
+                  </div>
+                </label>
+              ))}
             </div>
           </div>
 

@@ -168,7 +168,7 @@ export default function ServicesTab() {
   return (
     <>
       {/* Sub-tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+      <div className="flex items-center justify-center gap-2 mb-5">
         {SERVICE_TABS.map((tab) => (
           <button
             key={tab.key}
@@ -180,7 +180,7 @@ export default function ServicesTab() {
             }`}
           >
             {tab.icon}
-            {tab.label}
+            <span className="hidden sm:inline">{tab.label}</span>
           </button>
         ))}
       </div>

@@ -68,20 +68,20 @@ export default function CoachProfilePage() {
 
       {/* ── Main tabs ── */}
       <div className="bg-[#FDFDFD] border-b border-[#DCDCDC] sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-6">
-          <nav className="flex justify-center" aria-label="Main navigation">
+        <div className="max-w-3xl mx-auto px-2 sm:px-6">
+          <nav className="flex overflow-x-auto scrollbar-none sm:overflow-x-visible" aria-label="Main navigation">
             {MAIN_TABS.map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setMainTab(tab.key)}
-                className={`flex items-center gap-1.5 px-8 py-[15px] text-[13px] font-medium border-b-2 transition-colors ${
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 sm:px-8 py-4 text-[12px] sm:text-[13px] font-medium border-b-2 transition-colors whitespace-nowrap shrink-0 ${
                   mainTab === tab.key
                     ? "border-[#006BFF] text-[#006BFF]"
                     : "border-transparent text-[#86888D] hover:text-[#5A5C60]"
                 }`}
               >
                 {tab.icon}
-                {tab.label}
+                <span className="hidden sm:inline">{tab.label}</span>
               </button>
             ))}
           </nav>
@@ -89,8 +89,8 @@ export default function CoachProfilePage() {
       </div>
 
       {/* ── Tab content ── */}
-      <main className="flex-1 py-10" style={{ background: "radial-gradient(ellipse at center, #eff6ff 0%, #f8fafc 100%)" }}>
-        <div className={`mx-auto px-6 ${mainTab === "works" ? "max-w-4xl" : "max-w-3xl"}`}>
+      <main className="flex-1 py-6 sm:py-10" style={{ background: "radial-gradient(ellipse at center, #eff6ff 0%, #f8fafc 100%)" }}>
+        <div className={`mx-auto px-4 sm:px-6 ${mainTab === "works" ? "max-w-4xl" : "max-w-3xl"}`}>
           {mainTab === "services"      && <ServicesTab />}
           {mainTab === "availability"  && <AvailabilityTab onPreview={() => setPreviewMode(true)} />}
           {mainTab === "appointments"  && <AppointmentsTab />}

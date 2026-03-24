@@ -112,7 +112,7 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
 
   return (
     <>
-    <section className="bg-gradient-to-b from-blue-50 to-slate-50 py-8 px-6">
+    <section className="bg-gradient-to-b from-blue-50 to-slate-50 py-6 sm:py-8 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto flex flex-col items-center gap-3">
 
         {/* Avatar */}
@@ -195,7 +195,7 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
         )}
 
         {/* ── Location + Socials + Share row ── */}
-        <div className="flex items-center gap-12 flex-wrap justify-center">
+        <div className="flex items-center gap-4 sm:gap-8 flex-wrap justify-center">
 
           {/* Location */}
           <div className="flex items-center gap-1 text-[13px] text-[#86888D]">
@@ -223,7 +223,7 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
             )}
           </div>
 
-          <div className="w-px h-4 bg-[#BFBFBF]" />
+          <div className="hidden sm:block w-px h-4 bg-[#BFBFBF]" />
 
           {/* Social icons — rendered from live savedLinks state */}
           <div className="flex items-center gap-1.5">
@@ -248,7 +248,7 @@ export default function ProfileHeader({ onShareClick, onSocialLinksClick, social
             </button>
           </div>
 
-          <div className="w-px h-4 bg-[#BFBFBF]" />
+          <div className="hidden sm:block w-px h-4 bg-[#BFBFBF]" />
 
           {/* Share button */}
           <button

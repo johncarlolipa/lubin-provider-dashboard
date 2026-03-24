@@ -12,7 +12,7 @@ const SOCIAL = [
 export default function Footer() {
   return (
     <footer className="bg-[#002B66]">
-      <div className="max-w-3xl mx-auto px-6 py-10">
+      <div className="max-w-6xl mx-auto px-6 py-10">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
 
           {/* Brand */}
@@ -21,7 +21,7 @@ export default function Footer() {
               <LubinLogoMark fill="white" height={18} />
             </div>
             <p className="text-[12px] text-[#95979C] leading-relaxed">
-              Transform your life with expert coaching guidance.
+              Support your journey to better health with professional care.
             </p>
           </div>
 

@@ -1017,16 +1017,16 @@ export default function AboutTab() {
     <div className="flex flex-col gap-5">
 
       {/* ── Verification section: sticky status card lives here ── */}
-      <div className="grid grid-cols-3 gap-5 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
 
         {/* Left: only the two verification cards */}
-        <div className="col-span-2 flex flex-col gap-5">
+        <div className="lg:col-span-2 flex flex-col gap-5">
           <CredentialVerificationCard onSubmit={() => setCredStatus("under-review")} />
           <IdentityVerificationCard   onSubmit={() => setIdStatus("under-review")} />
         </div>
 
         {/* Right: status card, sticky within this row */}
-        <div className="col-span-1">
+        <div className="lg:col-span-1">
           <div className="sticky top-6">
             <VerificationStatusCard
               credStatus={credStatus}
@@ -1040,16 +1040,16 @@ export default function AboutTab() {
       </div>
 
       {/* ── Rest of profile ── */}
-      <div className="grid grid-cols-3 gap-5 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
 
-        <div className="col-span-2 flex flex-col gap-5">
+        <div className="lg:col-span-2 flex flex-col gap-5">
           <AboutBioCard             onSaved={() => showToast("Bio saved")} />
           <SpecializationCard       onSaved={() => showToast("Specializations saved")} />
           <SkillsCard               onSaved={() => showToast("Skills saved")} />
           <LicensesCertificationsCard onSaved={() => showToast("Certifications saved")} />
         </div>
 
-        <div className="col-span-1 flex flex-col gap-5">
+        <div className="lg:col-span-1 flex flex-col gap-5">
           <ExperienceCard onSaved={() => showToast("Experience saved")} />
           <EducationCard  onSaved={() => showToast("Education saved")} />
         </div>

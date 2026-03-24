@@ -103,7 +103,7 @@ export default function AvailabilityPreview({ onExit }: AvailabilityPreviewProps
         </div>
 
         {/* Center pill */}
-        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none">
+        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none hidden sm:block">
           <span className="border border-[#BFBFBF] rounded-full px-4 py-1.5 text-[13px] text-[#5A5C60] bg-[#FDFDFD]">
             This is a preview of your availability.
           </span>
@@ -132,10 +132,10 @@ export default function AvailabilityPreview({ onExit }: AvailabilityPreviewProps
       </div>
 
       {/* ── Main content ── */}
-      <div className="flex-1 flex items-start gap-6 px-6 py-6 max-w-[1100px] mx-auto w-full">
+      <div className="flex-1 flex flex-col lg:flex-row items-start gap-6 px-4 sm:px-6 py-6 max-w-[1100px] mx-auto w-full">
 
         {/* Left: Coach card */}
-        <div className="w-[200px] shrink-0 flex flex-col gap-3">
+        <div className="w-full lg:w-[200px] lg:shrink-0 flex flex-col gap-3">
           <div
             className="w-12 h-12 rounded-full flex items-center justify-center text-white text-[14px] font-bold shrink-0"
             style={{ background: "linear-gradient(135deg, #f59e0b 0%, #f97316 100%)" }}
@@ -234,7 +234,7 @@ export default function AvailabilityPreview({ onExit }: AvailabilityPreviewProps
         </div>
 
         {/* Right: Time slots */}
-        <div className="w-[190px] shrink-0">
+        <div className="w-full lg:w-[190px] lg:shrink-0">
           {/* Day label + 12h/24h toggle */}
           <div className="flex items-center justify-between mb-4">
             <span className="text-[14px] font-bold text-[#202124]">
@@ -265,7 +265,7 @@ export default function AvailabilityPreview({ onExit }: AvailabilityPreviewProps
           </div>
 
           {/* Time slot list */}
-          <div className="flex flex-col gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-2">
             {timeSlots.map((slot) => (
               <button
                 key={slot}

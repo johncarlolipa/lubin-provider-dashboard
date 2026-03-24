@@ -117,25 +117,25 @@ function WeeklySchedule({ schedule, onToggleDay, onChangeTime }: WeeklyScheduleP
         {schedule.map((day, i) => (
           <li
             key={day.day}
-            className={`flex items-center gap-3 px-5 py-3 ${
+            className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3 ${
               i < schedule.length - 1 ? "border-b border-[#EFEFEF]" : ""
             }`}
           >
-            {/* Toggle */}
-            <Toggle enabled={day.enabled} onChange={() => onToggleDay(i)} />
+            {/* Row 1: Toggle + Day label */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Toggle enabled={day.enabled} onChange={() => onToggleDay(i)} />
+              <span
+                className={`w-[88px] text-[13px] font-medium shrink-0 ${
+                  day.enabled ? "text-[#1A1A1D]" : "text-[#95979C]"
+                }`}
+              >
+                {day.day}
+              </span>
+            </div>
 
-            {/* Day label */}
-            <span
-              className={`w-[88px] text-[13px] font-medium shrink-0 ${
-                day.enabled ? "text-[#1A1A1D]" : "text-[#95979C]"
-              }`}
-            >
-              {day.day}
-            </span>
-
-            {/* Time range or Not available */}
+            {/* Row 2 (mobile) / inline (desktop): Time range or Not available */}
             {day.enabled ? (
-              <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-1.5 sm:gap-2 pl-[46px] sm:pl-0">
                 <TimeSelect
                   value={day.startTime}
                   onChange={(val) => onChangeTime(i, "startTime", val)}
@@ -147,7 +147,7 @@ function WeeklySchedule({ schedule, onToggleDay, onChangeTime }: WeeklyScheduleP
                 />
               </div>
             ) : (
-              <span className="text-[13px] text-[#66A6FF] font-medium">Not available</span>
+              <span className="text-[13px] text-[#66A6FF] font-medium pl-[46px] sm:pl-0">Not available</span>
             )}
           </li>
         ))}
@@ -256,21 +256,21 @@ export default function AvailabilityTab({ onPreview }: AvailabilityTabProps = {}
     <div className="flex flex-col gap-5">
 
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
         <div>
           <h2 className="text-[18px] font-bold text-[#202124]">Availability</h2>
           <p className="text-[13px] text-[#86888D] mt-0.5">
             Manage your weekly availability and timezone preferences
           </p>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 sm:shrink-0">
           <button
             onClick={onPreview}
-            className="px-4 py-[9px] border border-[#BFBFBF] rounded-lg text-[13px] font-medium text-[#5A5C60] bg-[#FDFDFD] hover:bg-[#FBFBFB] transition-colors"
+            className="flex-1 sm:flex-none px-4 py-[9px] border border-[#BFBFBF] rounded-lg text-[13px] font-medium text-[#5A5C60] bg-[#FDFDFD] hover:bg-[#FBFBFB] transition-colors"
           >
             Preview
           </button>
-          <button onClick={handleSaveChanges} className="px-4 py-[9px] rounded-lg text-[13px] font-medium text-white bg-[#006BFF] hover:bg-[#0056CC] transition-colors">
+          <button onClick={handleSaveChanges} className="flex-1 sm:flex-none px-4 py-[9px] rounded-lg text-[13px] font-medium text-white bg-[#006BFF] hover:bg-[#0056CC] transition-colors">
             Save Changes
           </button>
         </div>

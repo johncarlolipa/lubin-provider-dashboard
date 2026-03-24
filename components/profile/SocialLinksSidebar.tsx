@@ -98,7 +98,7 @@ export default function SocialLinksSidebar({ isOpen, onClose, onSave, savedLinks
 
       {/* Sidebar panel */}
       <aside
-        className={`fixed top-0 right-0 h-full w-[320px] bg-[#FDFDFD] shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ease-out ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[320px] bg-[#FDFDFD] shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ease-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
